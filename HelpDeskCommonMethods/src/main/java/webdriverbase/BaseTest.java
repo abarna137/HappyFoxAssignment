@@ -1,4 +1,5 @@
 package webdriverbase;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,15 +12,13 @@ public class BaseTest {
 
     @BeforeSuite
     public void beforeSuite() {
-    	
-    	System.setProperty("webdriver.chrome.driver","C:\\Users\\test\\Desktop\\D drive\\automation\\Chrome driver\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
     }
     
     @AfterSuite
     public void afterSuite() {
-        if(null != driver) {
-            driver.close();
+        if(driver != null) {
             driver.quit();
         }
     }

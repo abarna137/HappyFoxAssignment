@@ -1,34 +1,19 @@
 package webdriverbase;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import Logging.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.TestListenerAdapter;
 
 public class AppPage {
 	
-	public static String PATH_TO_TEST_DATA_FILE = "src/main/resources/";
-	public static String WINDOWS_PATH_TO_TEST_DATA_DIR = "src/main/resources/";
+	public static final String MAIN_RESOURCES_PATH = "src/main/resources/";
 	public static int WAIT_TIME_SEC = 60;	
 	protected WebDriver driver ;
 	
@@ -69,6 +54,18 @@ public class AppPage {
 		element.clear();
 		element.sendKeys(text);
 	}
+
+	public void type(WebElement element, String text) {
+		element.sendKeys(text);
+	}
+
+	public void doClick(WebElement element) {
+		element.click();
+	}
+
+	public String retrieveText(WebElement element) {
+		return element.getText();
+	}
 	
 	public void switchToDefaultContent() {
 		this.driver.switchTo().defaultContent();
@@ -92,21 +89,25 @@ public class AppPage {
 	public void scrolltoElement(String locator) {
 		try {
 			WebElement element = this.driver.findElement(By.xpath(locator));
-
 			scrolltoElement(element);
 		} catch (Exception ex) {
-			
+			Log.error(ex.getMessage());
 		}
 	}
 	
-	public void scrolltoElement(WebElement element) throws InterruptedException {
+	public void scrolltoElement(WebElement element) {
 		getJavaScriptExecutor().executeScript("arguments[0].scrollIntoView(false)", element);
-		Thread.sleep(1000);
+		waitForVisible(element);
 	}
 	
-	public void waitForVisible(WebElement element) {
+	public void waitForClickable(WebElement element) {
 		WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME_SEC);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
+	}
+
+	public void waitForVisible(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME_SEC);
+		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 	
 	
@@ -116,16 +117,16 @@ public class AppPage {
 		try{
 			workingDir = System.getProperty("user.dir");
 		}catch(Exception e){
-			e.printStackTrace();
+			Log.error(e.getMessage());
 		}
 		return workingDir;
 	}
 	
 	public String getTestDataFullDirPath(String fileName)
 	{
-		String path = PATH_TO_TEST_DATA_FILE;
+		String path = MAIN_RESOURCES_PATH;
 		if(getOperatingSystemType() == OSType.Windows)
-			path = WINDOWS_PATH_TO_TEST_DATA_DIR;
+			path = MAIN_RESOURCES_PATH;
 		return (getCurrentWorkingDirectory()+ path+ fileName);
 	}
 	

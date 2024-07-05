@@ -6,6 +6,18 @@
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
+            <artifactId>HelpDeskCommonMethods</artifactId>
+            <groupId>com.hpCommonFramework</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.helpdeskPageObjects</groupId>
+            <artifactId>HelpDeskProductPageObject</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.0.0</version>
@@ -79,5 +91,4 @@
             <version>4.1.1</version>
         </dependency>
     </dependencies>
-
 </project>

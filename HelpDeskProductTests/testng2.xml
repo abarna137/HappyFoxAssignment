@@ -3,7 +3,7 @@
 <suite name="Scenario 2">
   <test thread-count="5" name="TC1 plus TC2 plus TC3">
     <classes>
-      <class name="Admin_Portal.AdminPortalTest2"/>
+      <class name="Admin_Portal.AdminPortalSecondTests"/>
     </classes>
   </test> <!-- TC1 plus TC2 plus TC3 -->
 </suite> <!-- Scenario 2 -->
